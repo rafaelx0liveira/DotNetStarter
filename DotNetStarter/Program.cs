@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using DotNetStarter.Core;
+using Spectre.Console;
 
 public class Program
 {
@@ -13,17 +14,15 @@ public class Program
                 var projectName = AnsiConsole.Ask<string>("What is the [green]project name[/]?");
                 var outputPath = AnsiConsole.Ask<string>("Output directory [default: current]:", ".");
 
-                //ProjectGenerator.CreateProject(architecture, projectName, outputPath);
+                ProjectGenerator.CreateProject(architecture, projectName, outputPath);
                 AnsiConsole.Markup("[green]Project created successfully![/]");
                 break;
 
-
             case "help":
             default:
-                AnsiConsole.Markup("[yellow]Available commands:[/]");
-                AnsiConsole.Markup("\n- init [architecture] [options]");
+                AnsiConsole.MarkupLine("[yellow]Available commands:[/]");
+                AnsiConsole.MarkupLine("- [blue]init[/] [green]architecture[/] [[options]]");
                 break;
-
         }
     }
 }

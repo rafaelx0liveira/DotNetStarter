@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="clean\src\{{ProjectName}}.Application\" />
+    <Folder Include="clean\src\{{ProjectName}}.Domain\" />
+    <Folder Include="clean\src\{{ProjectName}}.Infrastructure\" />
+    <Folder Include="clean\src\{{ProjectName}}.WebAPI\" />
+    <Folder Include="clean\tests\{{ProjectName}}.Tests\" />
+    <Folder Include="ddd\" />
+    <Folder Include="microservice\" />
+  </ItemGroup>
+
 </Project>
