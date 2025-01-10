@@ -1,31 +1,47 @@
-﻿namespace DotNetStarter.Core
+﻿using DotNetStarter.Templates;
+
+namespace DotNetStarter.Core
 {
     public class ProjectGenerator
     {
-        public static void CreateProject(string architecture, string projectName, string outputPath)
+        public static void CreateProject(string architecture, string outputPath)
         {
-            string templatePath = $"Templates/{architecture}";
-            string destinationPath = Path.Combine(outputPath, architecture);
+            string templatePath = TemplateLoader.GetTemplateFile(architecture);
 
-            if (!Directory.Exists(destinationPath))
+            if (!Directory.Exists(templatePath))
             {
-                throw new ArgumentException($"Template {architecture} not found.");
+                throw new DirectoryNotFoundException($"Template '{architecture}' not found at '{templatePath}'.");
             }
 
+            // Define o caminho absoluto para o diretório de saída
+            string destinationPath = Directory.GetCurrentDirectory();
+
+            if (!outputPath.Equals("."))
+            {
+                if (string.IsNullOrWhiteSpace(outputPath) || !Path.IsPathRooted(outputPath))
+                {
+                    throw new DirectoryNotFoundException($"Output directory '{outputPath}' was not found.");
+                }
+
+                destinationPath = Path.GetFullPath(outputPath);
+            }
+
+            // Cria o diretório de destino, se não existir
             Directory.CreateDirectory(destinationPath);
 
-            foreach(var file in Directory.GetFiles(templatePath, "*.*", SearchOption.AllDirectories))
+            // Copia os arquivos do template
+            foreach (var file in Directory.GetFiles(templatePath, "*.*", SearchOption.AllDirectories))
             {
-                var content = File.ReadAllText(file)
-                    .Replace("{{ProjectName}}", projectName);
-
-                var relativePath = file.Substring(templatePath.Length + 1);
+                var content = File.ReadAllText(file);
+                var relativePath = Path.GetRelativePath(templatePath, file);
                 var outputFile = Path.Combine(destinationPath, relativePath);
 
+                // Garante que o diretório de destino do arquivo existe
                 Directory.CreateDirectory(Path.GetDirectoryName(outputFile));
+
+                // Grava o arquivo no local de destino
                 File.WriteAllText(outputFile, content);
             }
-
         }
     }
 }

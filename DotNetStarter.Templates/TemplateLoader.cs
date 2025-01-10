@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,18 +10,18 @@ namespace DotNetStarter.Templates
 {
     public static class TemplateLoader
     {
-        public static string GetTemplateFile(string templateName, string relativePath)
+        public static string GetTemplateFile(string templateName)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourcePath = $"DotNetStarter.Templates.{templateName}.{relativePath.Replace("\\", ".")}";
+            // Caminho base do projeto
+            var templatePath = Path.Combine(AppContext.BaseDirectory, $"{templateName}");
 
-            using var stream = assembly.GetManifestResourceStream(resourcePath);
+            // Verifica se o diretório do template existe
+            if (!Directory.Exists(templatePath))
+            {
+                throw new DirectoryNotFoundException($"Template '{templateName}' not found at '{templatePath}'.");
+            }
 
-            if (stream == null) throw new FileNotFoundException($"Template file not found: {resourcePath}");
-
-            using var reader = new StreamReader(stream);
-
-            return reader.ReadToEnd();
+            return templatePath;
         }
     }
 }

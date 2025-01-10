@@ -11,18 +11,50 @@ public class Program
         {
             case "init":
                 var architecture = args.Length > 1 ? args[1] : "clean";
-                var projectName = AnsiConsole.Ask<string>("What is the [green]project name[/]?");
-                var outputPath = AnsiConsole.Ask<string>("Output directory [default: current]:", ".");
+                var outputPath = AnsiConsole.Ask<string>("Output directory [[default: current]]:", ".");
 
-                ProjectGenerator.CreateProject(architecture, projectName, outputPath);
-                AnsiConsole.Markup("[green]Project created successfully![/]");
+                try
+                {
+                    ProjectGenerator.CreateProject(architecture, outputPath);
+                    AnsiConsole.Markup("[green]Project created successfully![/]");
+                }
+                catch (Exception ex)
+                {
+                    AnsiConsole.MarkupLine($"[bold red]{ex.Message}[/]");
+                }
                 break;
 
             case "help":
             default:
-                AnsiConsole.MarkupLine("[yellow]Available commands:[/]");
-                AnsiConsole.MarkupLine("- [blue]init[/] [green]architecture[/] [[options]]");
+                if(args.Length > 1 && args[1] == "--arch")
+                {
+                    ShowAvailableArchitectures();
+                }
+                else
+                {
+                    ShowHelp();
+                }
+
                 break;
+        }
+
+        // Mostra os comandos disponíveis
+        static void ShowHelp()
+        {
+            AnsiConsole.MarkupLine("[yellow]Available commands:[/]");
+            AnsiConsole.MarkupLine("- [blue]init[/] [green]architecture[/]");
+            AnsiConsole.MarkupLine("- [blue]help[/] [[--arch]]");
+        }
+
+        // Mostra as arquiteturas disponíveis
+        static void ShowAvailableArchitectures()
+        {
+            var architectures = new[] { "clean", "ddd", "microservice" }; 
+            AnsiConsole.MarkupLine("[yellow]Available architectures:[/]");
+            foreach (var arch in architectures)
+            {
+                AnsiConsole.MarkupLine($"- [green]{arch}[/]");
+            }
         }
     }
 }
