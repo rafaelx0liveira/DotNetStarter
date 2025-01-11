@@ -12,10 +12,10 @@ namespace DotNetStarter.Templates
     {
         public static string GetTemplatePath(string templateName)
         {
-            // Caminho base do projeto
+            // Project base path
             var templatePath = Path.Combine(AppContext.BaseDirectory, $"{templateName}");
 
-            // Verifica se o diretório do template existe
+            // Checks if the template directory exists
             if (!Directory.Exists(templatePath))
             {
                 throw new DirectoryNotFoundException($"Template '{templateName}' not found at '{templatePath}'.");

@@ -13,7 +13,7 @@ namespace DotNetStarter.Core.ProjectGenerator
                 throw new DirectoryNotFoundException($"Template '{architecture}' not found at '{templatePath}'.");
             }
 
-            // Define o caminho absoluto para o diretório de saída
+            // Sets the absolute path to the output directory
             string destinationPath = Directory.GetCurrentDirectory();
 
             if (!outputPath.Equals("."))
@@ -26,10 +26,10 @@ namespace DotNetStarter.Core.ProjectGenerator
                 destinationPath = Path.GetFullPath(outputPath);
             }
 
-            // Cria o diretório de destino, se não existir
+            // Creates the destination directory if it does not exist
             Directory.CreateDirectory(destinationPath);
 
-            // Copia os arquivos do template
+            // Copy the template files
             foreach (var file in Directory.GetFiles(templatePath, "*.*", SearchOption.AllDirectories))
             {
                 var content = File.ReadAllText(file);
@@ -42,10 +42,10 @@ namespace DotNetStarter.Core.ProjectGenerator
                     throw new DirectoryNotFoundException($"Directory name {dirName} was not found.");
                 }
 
-                // Garante que o diretório de destino do arquivo existe
+                // Ensures that the file destination directory exists
                 Directory.CreateDirectory(dirName);
 
-                // Grava o arquivo no local de destino
+                // Writes the file to the destination location
                 File.WriteAllText(outputFile, content);
             }
         }

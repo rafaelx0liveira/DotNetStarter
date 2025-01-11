@@ -9,9 +9,12 @@ namespace DotNetStarter.Core.Architectures
     public static class Architectures
     {
         public static string[] AvailableArchitectures => [
-            "clean", 
-            "ddd", 
-            "microservice"
+            "clean",
+            "cqrs",
+            "ddd",
+            "hexagonal",
+            "microservice",
+            "onion"
         ];
     }
 }
