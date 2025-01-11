@@ -1,12 +1,12 @@
 ﻿using DotNetStarter.Templates;
 
-namespace DotNetStarter.Core
+namespace DotNetStarter.Core.ProjectGenerator
 {
     public class ProjectGenerator
     {
         public static void CreateProject(string architecture, string outputPath)
         {
-            string templatePath = TemplateLoader.GetTemplateFile(architecture);
+            string templatePath = TemplateLoader.GetTemplatePath(architecture);
 
             if (!Directory.Exists(templatePath))
             {
@@ -35,9 +35,15 @@ namespace DotNetStarter.Core
                 var content = File.ReadAllText(file);
                 var relativePath = Path.GetRelativePath(templatePath, file);
                 var outputFile = Path.Combine(destinationPath, relativePath);
+                var dirName = Path.GetDirectoryName(outputFile);
+
+                if(dirName == null)
+                {
+                    throw new DirectoryNotFoundException($"Directory name {dirName} was not found.");
+                }
 
                 // Garante que o diretório de destino do arquivo existe
-                Directory.CreateDirectory(Path.GetDirectoryName(outputFile));
+                Directory.CreateDirectory(dirName);
 
                 // Grava o arquivo no local de destino
                 File.WriteAllText(outputFile, content);

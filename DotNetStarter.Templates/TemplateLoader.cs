@@ -10,7 +10,7 @@ namespace DotNetStarter.Templates
 {
     public static class TemplateLoader
     {
-        public static string GetTemplateFile(string templateName)
+        public static string GetTemplatePath(string templateName)
         {
             // Caminho base do projeto
             var templatePath = Path.Combine(AppContext.BaseDirectory, $"{templateName}");

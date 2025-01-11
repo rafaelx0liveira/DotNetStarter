@@ -14,30 +14,36 @@
 	  
 	<Content Include="clean\**" CopyToOutputDirectory="PreserveNewest" Pack="true" />
 	<Content Include="clean\**\*.gitkeep" Pack="true" />
-	<EmbeddedResource Remove="clean\Application\Commom\Validations\placeholder.txt" />
+	<EmbeddedResource Remove="clean\Application\Shared\Validators\placeholder.txt" />
 	<EmbeddedResource Remove="clean\Application\UseCases\placeholder.txt" />
 	<EmbeddedResource Remove="clean\Domain\Entities\Base\placeholder.txt" />
 	<EmbeddedResource Remove="clean\Domain\Exceptions\placeholder.txt" />
 	<EmbeddedResource Remove="clean\Domain\ValueObjects\Output\placeholder.txt" />
 	<EmbeddedResource Remove="clean\Domain\ValueObjects\placeholder.txt" />
-	<EmbeddedResource Remove="clean\Infrastructure\Persistance\Config\placeholder.txt" />
-	<EmbeddedResource Remove="clean\Infrastructure\Persistance\Migrations\placeholder.txt" />
-	<EmbeddedResource Remove="clean\Infrastructure\Persistance\placeholder.txt" />
+	<EmbeddedResource Remove="clean\Infrastructure\Persistence\Config\placeholder.txt" />
+	<EmbeddedResource Remove="clean\Infrastructure\Persistence\Migrations\placeholder.txt" />
+	<EmbeddedResource Remove="clean\Infrastructure\Persistence\placeholder.txt" />
 	<EmbeddedResource Remove="clean\Presentation\Filters\placeholder.txt" />
 	<EmbeddedResource Remove="clean\Presentation\Interfaces\placeholder.txt" />
 	<EmbeddedResource Remove="clean\Presentation\Interfaces\Repository\placeholder.txt" />
-	<None Remove="clean\Application\Commom\Validations\placeholder.txt" />
+	<EmbeddedResource Remove="clean\Tests\Domain\placeholder.txt" />
+	<EmbeddedResource Remove="clean\Tests\Infrastructure\Repositories\placeholder.txt" />
+	<EmbeddedResource Remove="clean\Tests\Shared\Helpers\placeholder.txt" />
+	<None Remove="clean\Application\Shared\Validators\placeholder.txt" />
 	<None Remove="clean\Application\UseCases\placeholder.txt" />
 	<None Remove="clean\Domain\Entities\Base\placeholder.txt" />
 	<None Remove="clean\Domain\Exceptions\placeholder.txt" />
 	<None Remove="clean\Domain\ValueObjects\Output\placeholder.txt" />
 	<None Remove="clean\Domain\ValueObjects\placeholder.txt" />
-	<None Remove="clean\Infrastructure\Persistance\Config\placeholder.txt" />
-	<None Remove="clean\Infrastructure\Persistance\Migrations\placeholder.txt" />
-	<None Remove="clean\Infrastructure\Persistance\placeholder.txt" />
+	<None Remove="clean\Infrastructure\Persistence\Config\placeholder.txt" />
+	<None Remove="clean\Infrastructure\Persistence\Migrations\placeholder.txt" />
+	<None Remove="clean\Infrastructure\Persistence\placeholder.txt" />
 	<None Remove="clean\Presentation\Filters\placeholder.txt" />
 	<None Remove="clean\Presentation\Interfaces\placeholder.txt" />
 	<None Remove="clean\Presentation\Interfaces\Repository\placeholder.txt" />
+	<None Remove="clean\Tests\Domain\placeholder.txt" />
+	<None Remove="clean\Tests\Infrastructure\Repositories\placeholder.txt" />
+	<None Remove="clean\Tests\Shared\Helpers\placeholder.txt" />
     <Folder Include="ddd\" />
     <Folder Include="microservice\" />
   </ItemGroup>
