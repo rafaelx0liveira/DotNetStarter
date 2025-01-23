@@ -13,11 +13,12 @@ public class Program
         {
             case "init":
                 var architecture = args.Length > 1 ? args[1] : "clean";
+                var projectName = AnsiConsole.Ask<string>("Project name [[default: current]]:", "MyProject");
                 var outputPath = AnsiConsole.Ask<string>("Output directory [[default: current]]:", ".");
 
                 try
                 {
-                    ProjectGenerator.CreateProject(architecture, outputPath);
+                    ProjectGenerator.CreateProject(projectName, architecture, outputPath);
                     AnsiConsole.Markup("[green]Project created successfully![/]");
                 }
                 catch (Exception ex)

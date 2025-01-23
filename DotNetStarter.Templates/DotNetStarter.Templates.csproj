@@ -229,6 +229,58 @@
 	<None Remove="onion\Tests\Api\placeholder.txt" />
 	<None Remove="onion\Tests\Core\placeholder.txt" />
 	<None Remove="onion\Tests\Infrastructure\placeholder.txt" />
+	<Content Include="CleanArch\Application\DTOs\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\Application\Interfaces\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\Application\Services\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\Application\UseCases\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\CrossCutting\DependencyInjection\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\CleanArch.Domain\Entities\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\CleanArch.Domain\Interfaces\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\CleanArch.Domain\ValueObjects\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\CleanArch.Infrastructure\Config\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\CleanArch.Infrastructure\Context\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\CleanArch.Infrastructure\Migrations\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\CleanArch.Infrastructure\Repositories\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
+	<Content Include="CleanArch\CleanArch.Tests\UnitTests\placeholder.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <Pack>true</Pack>
+	</Content>
 	<Content Include="cqrs\Api\Controllers\placeholder.txt">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  <Pack>true</Pack>
@@ -717,6 +769,12 @@
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  <Pack>true</Pack>
 	</Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="CleanArch\CleanArch.Application\CleanArch.Application.csproj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
