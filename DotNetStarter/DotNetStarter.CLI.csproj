@@ -9,7 +9,8 @@
 	  <PackAsTool>true</PackAsTool> <!-- Indica que é uma ferramenta global -->
 	  <ToolCommandName>dotnetstarter</ToolCommandName> <!-- Nome do comando do CLI -->
 	  <PackageId>DotNetStarter.CLI</PackageId> <!-- ID do pacote -->
-	  <Version>1.0.1</Version> <!-- Versão do pacote -->
+	  <Version>1.0.2</Version> <!-- Versão do pacote -->
+	  <Description>CLI para criar projetos com diferentes arquiteturas .NET</Description> <!-- Descrição -->
   </PropertyGroup>
 
   <ItemGroup>
