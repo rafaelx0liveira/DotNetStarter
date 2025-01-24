@@ -1,110 +1,51 @@
-﻿using DotNetStarter.Core.Architectures;
-using DotNetStarter.Core.ProjectGenerator;
-using DotNetStarter.Templates;
-using Spectre.Console;
+﻿using DotNetStarter.Core.Builder;
+using DotNetStarter.Core.Factories;
+using DotNetStarter.Core.Interfaces;
+using DotNetStarter.Core.Services;
+using Microsoft.Extensions.DependencyInjection;
+using DotNetStarter.CLI.Execute.Command;
+using DotNetStarter.CLI.Execute;
 
 public class Program
 {
     public static void Main(string[] args)
     {
-        var command = args.Length > 0 ? args[0] : "help";
+        // Configura o container de DI
+        var services = new ServiceCollection();
 
-        switch (command)
-        {
-            case "init":
-                var architecture = args.Length > 1 ? args[1] : "clean";
-                var projectName = AnsiConsole.Ask<string>("Project name [[default: current]]:", "MyProject");
-                var outputPath = AnsiConsole.Ask<string>("Output directory [[default: current]]:", ".");
+        // Registra serviços e dependências
+        ConfigureServices(services);
 
-                try
-                {
-                    ProjectGenerator.CreateProject(projectName, architecture, outputPath);
-                    AnsiConsole.Markup("[green]Project created successfully![/]");
-                }
-                catch (Exception ex)
-                {
-                    AnsiConsole.MarkupLine($"[bold red]{ex.Message}[/]");
-                }
-                break;
+        // Constrói o service provider
+        var serviceProvider = services.BuildServiceProvider();
 
-            case "help":
-            default:
-                if(args.Length > 1 && args[1] == "--arch")
-                {
-                    ShowAvailableArchitectures();
-                }
-                else
-                {
-                    ShowHelp();
-                }
+        // Executa a aplicação
+        var executor = serviceProvider.GetRequiredService<CommandExecutor>();
+        executor.Execute(args);
+    }
 
-                break;
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        // Registra as factories específicas
+        services.AddSingleton<IArchitectureFactory, CleanArchitectureFactory>();
+        services.AddSingleton<IArchitectureFactory, DddArchitectureFactory>();
+        services.AddSingleton<IArchitectureFactory, HexagonalArchitectureFactory>();
 
-            case "list":
-                var arch = args.Length > 1 && args[1].StartsWith("--arch=")
-                    ? args[1].Substring("--arch=".Length) : null;
+        // Registra o Factory Creator
+        services.AddSingleton<ProjectArchitectureFactoryCreator>();
 
-                if (arch == null)
-                {
-                    AnsiConsole.MarkupLine("[bold red]Please specify an architecture using --arch=[architecture][/].");
-                }
-                else
-                {
-                    ListStructure(arch);
-                }
+        // Registra o Builder
+        services.AddSingleton<ProjectStructureBuilder>();
 
-                break;  
-        }
+        // Registra o ProjectGenerator
+        services.AddTransient<ProjectGenerator>();
 
-        // List the availables commands
-        static void ShowHelp()
-        {
-            AnsiConsole.MarkupLine("[yellow]Available commands:[/]");
-            AnsiConsole.MarkupLine("- [blue]init[/] [green]architecture[/]");
-            AnsiConsole.MarkupLine("- [blue]help[/] [[--arch]]");
-        }
+        // Registra os comandos
+        services.AddTransient<InitCommand>();
+        services.AddTransient<ListCommand>();
+        services.AddTransient<HelpCommand>();
 
-        // List availables architectures
-        static void ShowAvailableArchitectures()
-        {
-            AnsiConsole.MarkupLine("[yellow]Available architectures:[/]");
-            foreach (var arch in Architectures.AvailableArchitectures) 
-            {
-                AnsiConsole.MarkupLine($"- [green]{arch}[/]");
-            }
-        }
-
-        // List the structure of architecture
-        static void ListStructure(string architecture)
-        {
-            try
-            {
-                var templatePath = TemplateLoader.GetTemplatePath(architecture);
-
-                if (!Directory.Exists(templatePath))
-                {
-                    throw new DirectoryNotFoundException($"Template '{architecture}' not found at '{templatePath}'.");
-                }
-
-                AnsiConsole.MarkupLine($"[yellow]Directory structure for architecture '{architecture}':[/]");
-                PrintDirectoryStructure(templatePath, 0);
-            }
-            catch (Exception ex)
-            {
-                AnsiConsole.MarkupLine($"[bold red]{ex.Message}[/]");
-            }
-        }
-
-        static void PrintDirectoryStructure(string directory, int indentLevel)
-        {
-            var indent = new string(' ', indentLevel * 4);
-            var dirName = Path.GetFileName(directory);
-            AnsiConsole.MarkupLine($"{indent}[blue]{dirName}[/]/");
-
-            foreach (var subDir in Directory.GetDirectories(directory))
-            {
-                PrintDirectoryStructure(subDir, indentLevel + 1);
-            }
-        }
+        // Registra o CommandExecutor
+        services.AddSingleton<CommandExecutor>();
     }
 }

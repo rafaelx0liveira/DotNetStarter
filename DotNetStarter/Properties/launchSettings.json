@@ -2,7 +2,7 @@
   "profiles": {
     "DotNetStarter": {
       "commandName": "Project",
-      "commandLineArgs": "init CleanArch"
+      "commandLineArgs": "help"
     },
     "Container (Dockerfile)": {
       "commandName": "Docker"
