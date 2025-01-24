@@ -8,12 +8,26 @@ using System.Threading.Tasks;
 
 namespace DotNetStarter.Core.Factories
 {
-    public class DddArchitectureFactory : IArchitectureFactory
+    public class MicroserviceArchitecture : IArchitectureFactory
     {
         public Dictionary<string, FolderStructure> GetStructure()
         {
             return new Dictionary<string, FolderStructure>
             {
+                {
+                    "API", new FolderStructure
+                    {
+                        Name = "API",
+                        SubFolders = new List<FolderStructure>
+                        {
+                            new FolderStructure { Name = "Controllers" },
+                            new FolderStructure { Name = "DTOs" },
+                            new FolderStructure { Name = "Filters" },
+                            new FolderStructure { Name = "Middlewares" },
+                            new FolderStructure { Name = "Validators" },
+                        }
+                    }
+                },
                 {
                     "Application", new FolderStructure
                     {
@@ -21,17 +35,16 @@ namespace DotNetStarter.Core.Factories
                         SubFolders = new List<FolderStructure>
                         {
                             new FolderStructure { Name = "Commands" },
-                            new FolderStructure { Name = "DTOs" },
+                            new FolderStructure { Name = "Events" },
                             new FolderStructure { 
                                 Name = "Interfaces",
                                 SubFolders = new List<FolderStructure>
                                 {
-                                    new FolderStructure {Name = "Services"}
+                                    new FolderStructure { Name = "Services" }
                                 }
                             },
                             new FolderStructure { Name = "Queries" },
                             new FolderStructure { Name = "Services" },
-                            new FolderStructure { Name = "Validators" },
                         }
                     }
                 },
@@ -41,25 +54,15 @@ namespace DotNetStarter.Core.Factories
                         Name = "Domain",
                         SubFolders = new List<FolderStructure>
                         {
-                            new FolderStructure { Name = "Aggregates" },
-                            new FolderStructure
-                            {
-                                Name = "Entities",
-                                SubFolders = new List<FolderStructure>
-                                {
-                                    new FolderStructure { Name = "Base" },
-                                    new FolderStructure { Name = "Utils" }
-                                }
-                            },
+                            new FolderStructure { Name = "Entities" },
                             new FolderStructure { Name = "Events" },
                             new FolderStructure { Name = "Exceptions" },
-                            new FolderStructure
-                            {
+                            new FolderStructure {
                                 Name = "Interfaces",
                                 SubFolders = new List<FolderStructure>
                                 {
                                     new FolderStructure { Name = "Repositories" },
-                                    new FolderStructure { Name = "Services" }
+                                    new FolderStructure { Name = "Services" },
                                 }
                             },
                             new FolderStructure { Name = "ValueObjects" },
@@ -72,8 +75,23 @@ namespace DotNetStarter.Core.Factories
                         Name = "Infrastructure",
                         SubFolders = new List<FolderStructure>
                         {
-                            new FolderStructure
-                            {
+                            new FolderStructure { 
+                                Name = "Messaging",
+                                SubFolders = new List<FolderStructure>
+                                {
+                                    new FolderStructure { Name = "Consumers" },
+                                    new FolderStructure { Name = "Publishers" },
+                                }
+                            },
+                            new FolderStructure { 
+                                Name = "Observability",
+                                SubFolders = new List<FolderStructure>
+                                {
+                                    new FolderStructure { Name = "Logging" },
+                                    new FolderStructure { Name = "Metrics" },
+                                }
+                            },
+                            new FolderStructure {
                                 Name = "Persistence",
                                 SubFolders = new List<FolderStructure>
                                 {
@@ -87,42 +105,51 @@ namespace DotNetStarter.Core.Factories
                     }
                 },
                 {
-                    "Presentation", new FolderStructure
-                    {
-                        Name = "Presentation",
-                        SubFolders = new List<FolderStructure>
-                        {
-                            new FolderStructure { Name = "Controllers"},
-                            new FolderStructure { Name = "Filters" }
-                        }
-                    }
-                },
-                {
                     "Tests", new FolderStructure
                     {
                         Name = "Tests",
                         SubFolders = new List<FolderStructure>
                         {
-                            new FolderStructure
-                            {
+                            new FolderStructure {
+                                Name = "API",
+                                SubFolders = new List<FolderStructure>
+                                {
+                                    new FolderStructure { Name = "Controllers" },
+                                    new FolderStructure { Name = "Middlewares" },
+                                }
+                            },
+                            new FolderStructure {
                                 Name = "Application",
                                 SubFolders = new List<FolderStructure>
                                 {
                                     new FolderStructure { Name = "Commands" },
+                                    new FolderStructure { Name = "Events" },
                                     new FolderStructure { Name = "Queries" },
-                                    new FolderStructure { Name = "Services" }
                                 }
                             },
-                            new FolderStructure
-                            {
+                            new FolderStructure {
                                 Name = "Domain",
                                 SubFolders = new List<FolderStructure>
                                 {
-                                    new FolderStructure { Name = "Aggregates" },
                                     new FolderStructure { Name = "Entities" },
+                                    new FolderStructure { Name = "Events" },
                                 }
                             },
-                            new FolderStructure { Name = "Repositories" }
+                            new FolderStructure {
+                                Name = "Infrastructure",
+                                SubFolders = new List<FolderStructure>
+                                {
+                                    new FolderStructure { 
+                                        Name = "Messaging",
+                                        SubFolders = new List<FolderStructure>
+                                        {
+                                            new FolderStructure { Name = "Consumers" },
+                                            new FolderStructure { Name = "Publishers" },
+                                        }
+                                    },
+                                    new FolderStructure { Name = "Repositories" },
+                                }
+                            }
                         }
                     }
                 }

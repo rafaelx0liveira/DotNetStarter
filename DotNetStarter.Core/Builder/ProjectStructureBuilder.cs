@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetStarter.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,29 +25,49 @@ namespace DotNetStarter.Core.Builder
             RunDotNetCommand($"new classlib -n {projectName} -o \"{projectPath}\"");
         }
 
-        public void CreateFolders(string projectPath, string[] folders)
+        public void AddFoldersToCsproj(string csprojPath, FolderStructure folderStructure)
         {
-            foreach (var folder in folders)
-            {
-                string folderPath = Path.Combine(projectPath, folder);
-                Directory.CreateDirectory(folderPath);
-            }
-        }
-
-        public void AddFoldersToCsproj(string csprojPath, string[] folders)
-        {
+            // Ler o conteúdo atual do arquivo .csproj
             var csprojContent = File.ReadAllText(csprojPath);
 
-            var folderReferences = string.Join(Environment.NewLine, folders.Select(folder =>
-                $"    <Folder Include=\"{folder}\\\" />"));
+            // Gerar referências de pastas recursivamente
+            var folderReferences = GenerateFolderReferences(folderStructure);
 
-            csprojContent = csprojContent.Replace("</Project>", $@"
+            // Inserir as referências de pastas no arquivo .csproj antes do fechamento da tag </Project>
+            if (!csprojContent.Contains("<ItemGroup>"))
+            {
+                // Criar um novo ItemGroup se não existir
+                csprojContent = csprojContent.Replace("</Project>", $@"
   <ItemGroup>
 {folderReferences}
   </ItemGroup>
 </Project>");
+            }
+            else
+            {
+                // Adicionar ao ItemGroup existente
+                int itemGroupIndex = csprojContent.IndexOf("</ItemGroup>");
+                csprojContent = csprojContent.Insert(itemGroupIndex, $"\n{folderReferences}");
+            }
 
+            // Escrever as alterações de volta no arquivo .csproj
             File.WriteAllText(csprojPath, csprojContent);
+        }
+
+        private string GenerateFolderReferences(FolderStructure folderStructure, string parentPath = "")
+        {
+            // Usar apenas o nome da pasta, ignorando o caminho do pai
+            var folderReference = $"    <Folder Include=\"{folderStructure.Name}\\\" />";
+
+            // Processar subpastas recursivamente
+            var subFolderReferences = folderStructure.SubFolders != null
+                ? folderStructure.SubFolders
+                    .Select(subFolder => GenerateFolderReferences(subFolder)) // Não concatenar caminho do pai
+                    .ToList()
+                : new List<string>();
+
+            // Combinar a referência da pasta atual com as referências das subpastas
+            return string.Join(Environment.NewLine, new[] { folderReference }.Concat(subFolderReferences));
         }
 
         private void RunDotNetCommand(string arguments)

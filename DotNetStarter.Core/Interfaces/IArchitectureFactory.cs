@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotNetStarter.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace DotNetStarter.Core.Interfaces
 {
     public interface IArchitectureFactory
     {
-        Dictionary<string, string[]> GetStructure();
+        Dictionary<string, FolderStructure> GetStructure();
     }
 }
