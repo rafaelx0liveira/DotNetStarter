@@ -39,7 +39,7 @@ namespace DotNetStarter.Core.Services
 
                 // Atualizar o arquivo .csproj com as pastas criadas
                 string csprojPath = Path.Combine(layerPath, $"{layerName}.csproj");
-                _builder.AddFoldersToCsproj(csprojPath, layer.Value);
+                //_builder.AddFoldersToCsproj(csprojPath, layer.Value);
 
                 // Adicionar o projeto à solução principal
                 _builder.AddProjectToSolution(solutionPath, csprojPath);
