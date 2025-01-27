@@ -26,7 +26,14 @@ namespace DotNetStarter.CLI.Execute.Command
             foreach (var factory in factories)
             {
                 var architectureName = factory.GetType().Name.Replace("Factory", "");
-                AnsiConsole.MarkupLine($"- [green]{architectureName}[/]");
+
+                if (architectureName.StartsWith("Clean"))
+                {
+                    AnsiConsole.MarkupLine($"- [green]{architectureName}[/] [yellow](DEFAULT)[/]");
+                } else
+                {
+                    AnsiConsole.MarkupLine($"- [green]{architectureName}[/]");
+                }
             }
         }
     }

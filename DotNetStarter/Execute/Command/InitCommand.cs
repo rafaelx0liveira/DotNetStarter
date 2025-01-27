@@ -19,7 +19,7 @@ namespace DotNetStarter.CLI.Execute.Command
 
         public void Execute(string[] args)
         {
-            var architecture = args.Length > 1 ? args[1] : "clean";
+            var architecture = args.Length > 1 ? args[1] : "CleanArchitecture";
             var projectName = AnsiConsole.Ask<string>("Project name [[default: MyProject]]:", "MyProject");
             var outputPath = AnsiConsole.Ask<string>("Output directory [[default: current]]:", ".");
 

@@ -2,7 +2,7 @@
   "profiles": {
     "DotNetStarter": {
       "commandName": "Project",
-      "commandLineArgs": "list"
+      "commandLineArgs": "init"
     },
     "Container (Dockerfile)": {
       "commandName": "Docker"

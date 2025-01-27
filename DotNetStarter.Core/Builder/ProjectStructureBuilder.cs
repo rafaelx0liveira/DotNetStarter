@@ -21,7 +21,7 @@ namespace DotNetStarter.Core.Builder
         }
 
         public void CreateClassLibraryProject(string projectName, string projectPath)
-            {
+        {
             RunDotNetCommand($"new classlib -n {projectName} -o \"{projectPath}\"");
         }
 
