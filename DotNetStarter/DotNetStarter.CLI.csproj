@@ -9,7 +9,7 @@
 	  <PackAsTool>true</PackAsTool> <!-- Indica que é uma ferramenta global -->
 	  <ToolCommandName>dotnetstarter</ToolCommandName> <!-- Nome do comando do CLI -->
 	  <PackageId>DotNetStarter.CLI</PackageId> <!-- ID do pacote -->
-	  <Version>2.0.0</Version> <!-- Versão do pacote -->
+	  <Version>2.0.1</Version> <!-- Versão do pacote -->
 	  <Description>CLI para criar projetos com diferentes arquiteturas .NET</Description> <!-- Descrição -->
 	  <RepositoryUrl>https://github.com/rafaelx0liveira/DotNetStarter</RepositoryUrl>
 	  <PackageProjectUrl>https://github.com/rafaelx0liveira/DotNetStarter</PackageProjectUrl>
