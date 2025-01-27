@@ -3,7 +3,7 @@ using DotNetStarter.Core.Interfaces;
 
 namespace DotNetStarter.Core.Factories
 {
-    public class CQRSArchitecture : IArchitectureFactory
+    public class CQRSArchitectureFactory : IArchitectureFactory
     {
         public Dictionary<string, FolderStructure> GetStructure()
         {

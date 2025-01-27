@@ -28,8 +28,11 @@ public class Program
     {
         // Registra as factories específicas
         services.AddSingleton<IArchitectureFactory, CleanArchitectureFactory>();
+        services.AddSingleton<IArchitectureFactory, CQRSArchitectureFactory>();
         services.AddSingleton<IArchitectureFactory, DddArchitectureFactory>();
         services.AddSingleton<IArchitectureFactory, HexagonalArchitectureFactory>();
+        services.AddSingleton<IArchitectureFactory, MicroserviceArchitectureFactory>();
+        services.AddSingleton<IArchitectureFactory, OnionArchitectureFactory>();
 
         // Registra o Factory Creator
         services.AddSingleton<ProjectArchitectureFactoryCreator>();

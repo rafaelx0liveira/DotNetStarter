@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DotNetStarter.Core.Factories
 {
-    public class OnionArchitecture : IArchitectureFactory
+    public class OnionArchitectureFactory : IArchitectureFactory
     {
         public Dictionary<string, FolderStructure> GetStructure()
         {
