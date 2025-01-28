@@ -1,9 +1,13 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET Build and Check
+name: .NET Build, Check, Pack and Publish
 
 on:
+  push:
+    tags:
+      - 'v*.*.*'
+
   pull_request:
     branches:
       - dev
@@ -14,23 +18,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Checkout do repositório
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    # Configura o .NET SDK
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0
 
+    # Extrai a versão da tag (ex.: v2.0.1 -> 2.0.1)
+    - name: Extract version from Git tag
+      id: extract_version
+      run: echo "##[set-output name=VERSION;]${GITHUB_REF#refs/tags/v}"
+
+    # Atualiza a versão no arquivo .csproj
+    - name: Update version in .csproj
+      run: |
+        VERSION=${{ steps.extract_version.outputs.VERSION }}
+        sed -i 's|<Version>.*</Version>|<Version>'"$VERSION"'</Version>|g' DotNetStarter.CLI/DotNetStarter.CLI.csproj
+
+    # Restaura as dependências do projeto
     - name: Restore dependencies
       run: dotnet restore
 
+    # Compila o projeto em modo Release
     - name: Build solution
       run: dotnet build --configuration Release
 
+    # Verifica a formatação do código
     - name: Format code
-      run: dotnet format ./DotNetStarter.sln
+      run: dotnet format ./DotNetStarter.sln 
 
+    # Empacota o projeto em um arquivo .nupkg
+    - name: Pack NuGet Package
+      run: dotnet pack DotNetStarter.sln --configuration Release -o ./nupkg -p:PackageVersion=${{ steps.extract_version.outputs.VERSION }}
+
+    # Publica o pacote no NuGet (somente para push de tags)
     - name: Publish to NuGet
-      run: dotnet nuget push MyProject.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
-
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: dotnet nuget push ./nupkg/DotNetStarter.CLI.${{ steps.extract_version.outputs.VERSION }}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
