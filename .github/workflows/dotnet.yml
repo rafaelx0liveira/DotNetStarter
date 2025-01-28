@@ -41,9 +41,8 @@ jobs:
 
     # Atualiza a versão no arquivo .csproj
     - name: Update version in .csproj
-    - name: Update version in .csproj
       run: |
-        xmlstarlet ed --inplace -u "//Project/PropertyGroup/Version" -v "${{ steps.version.outputs.NEW_VERSION }}" DotNetStarter/DotNetStarter.CLI.csproj
+        sed -i "s|<Version>[0-9.]\+</Version>|<Version>${{ steps.version.outputs.NEW_VERSION }}</Version>|g" DotNetStarter/DotNetStarter.CLI.csproj
 
     # Restaura as dependências do projeto
     - name: Restore dependencies
