@@ -24,21 +24,24 @@ jobs:
       with:
         dotnet-version: 8.0
 
-        # Obtém a última tag com o maior número de versão
-    - name: Get latest tag
+    # Obtém a última tag com o maior número de versão e gera a próxima
+    - name: Get latest tag and prepare versions
       id: version
       run: |
+        # Obtém todas as tags e ordena semanticamente
         TAG=$(git tag | sort -V | tail -n 1)
         if [ -z "$TAG" ]; then
           TAG="v0.0.0"
         fi
         echo "Latest tag: $TAG"
 
+        # Remove o prefixo "v" e incrementa a versão
         VERSION=${TAG#v}
         MAJOR=$(echo $VERSION | awk -F. '{print $1}')
         MINOR=$(echo $VERSION | awk -F. '{print $2}')
         PATCH=$(echo $VERSION | awk -F. '{print $3}')
 
+        # Incrementa o PATCH ou ajusta o MINOR/MAJOR conforme necessário
         if [ "$PATCH" -eq 9 ]; then
           PATCH=0
           MINOR=$((MINOR + 1))
@@ -51,8 +54,9 @@ jobs:
           MAJOR=$((MAJOR + 1))
         fi
 
-        NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
-        CLEAN_VERSION="$MAJOR.$MINOR.$PATCH"
+        # Define as novas versões
+        NEW_VERSION="v$MAJOR.$MINOR.$PATCH"  # Com prefixo "v"
+        CLEAN_VERSION="$MAJOR.$MINOR.$PATCH" # Sem prefixo "v"
 
         echo "New version: $NEW_VERSION"
         echo "Clean version: $CLEAN_VERSION"
