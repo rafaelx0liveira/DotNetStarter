@@ -1,9 +1,10 @@
-name: .NET Build, Check, Pack and Publish
-
 on:
   push:
-    tags:
-      - 'v*' # Dispara o pipeline apenas em push de tags que seguem o padrão 'vX.X.X'
+    branches:
+      - main
+
+permissions:
+  contents: write  # Permite criar e enviar tags ao repositório
 
 jobs:
   build:
@@ -13,6 +14,8 @@ jobs:
     # Checkout do código
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Garante que todas as tags sejam buscadas
 
     # Configura o .NET SDK
     - name: Setup .NET
@@ -20,13 +23,44 @@ jobs:
       with:
         dotnet-version: 8.0
 
-    # Extrai a versão da tag
-    - name: Extract version from tag
+    # Obtém a última tag com o maior número de versão e gera a próxima
+    - name: Get latest tag and prepare versions
       id: version
       run: |
-        VERSION=${GITHUB_REF#refs/tags/v}
-        echo "Version from tag: $VERSION"
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        # Obtém todas as tags e ordena semanticamente
+        TAG=$(git tag | sort -V | tail -n 1)
+        if [ -z "$TAG" ]; then
+          TAG="v0.0.0"
+        fi
+        echo "Latest tag: $TAG"
+
+        # Remove o prefixo "v" e incrementa a versão
+        VERSION=${TAG#v}
+        MAJOR=$(echo $VERSION | awk -F. '{print $1}')
+        MINOR=$(echo $VERSION | awk -F. '{print $2}')
+        PATCH=$(echo $VERSION | awk -F. '{print $3}')
+
+        # Incrementa o PATCH ou ajusta o MINOR/MAJOR conforme necessário
+        if [ "$PATCH" -eq 9 ]; then
+          PATCH=0
+          MINOR=$((MINOR + 1))
+        else
+          PATCH=$((PATCH + 1))
+        fi
+
+        if [ "$MINOR" -eq 10 ]; then
+          MINOR=0
+          MAJOR=$((MAJOR + 1))
+        fi
+
+        # Define as novas versões
+        NEW_VERSION="v$MAJOR.$MINOR.$PATCH"  # Com prefixo "v"
+        CLEAN_VERSION="$MAJOR.$MINOR.$PATCH" # Sem prefixo "v"
+
+        echo "New version: $NEW_VERSION"
+        echo "Clean version: $CLEAN_VERSION"
+        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+        echo "CLEAN_VERSION=$CLEAN_VERSION" >> $GITHUB_ENV
 
     # Restaura as dependências do projeto
     - name: Restore dependencies
@@ -42,7 +76,7 @@ jobs:
 
     # Empacota o projeto para NuGet
     - name: Pack NuGet Package
-      run: dotnet pack DotNetStarter/DotNetStarter.CLI.csproj --configuration Release -o ./nupkg -p:PackageVersion=${{ env.VERSION }}
+      run: dotnet pack DotNetStarter/DotNetStarter.CLI.csproj --configuration Release -o ./nupkg -p:PackageVersion=${{ env.CLEAN_VERSION }}
 
     # Lista os pacotes gerados (para depuração)
     - name: List generated packages
@@ -52,4 +86,13 @@ jobs:
     - name: Publish to NuGet
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push ./nupkg/DotNetStarter.CLI.${{ env.VERSION }}.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./nupkg/DotNetStarter.CLI.${{ env.CLEAN_VERSION }}.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+        
+    # Cria e faz push de uma nova tag no repositório
+    - name: Create and push new tag
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "Creating and pushing tag: ${{ env.NEW_VERSION }}"
+        git tag ${{ env.NEW_VERSION }}
+        git push origin ${{ env.NEW_VERSION }}
