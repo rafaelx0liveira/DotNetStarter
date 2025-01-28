@@ -31,7 +31,13 @@ jobs:
     # Extrai a versão da tag (ex.: v2.0.1 -> 2.0.1)
     - name: Extract version from Git tag
       id: extract_version
-      run: echo "##[set-output name=VERSION;]${GITHUB_REF#refs/tags/v}"
+      run: |
+        if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+          echo "##[set-output name=VERSION;]${GITHUB_REF#refs/tags/v}"
+        else
+          echo "##[set-output name=VERSION;]0.0.0-PR"
+        fi
+
 
     # Atualiza a versão no arquivo .csproj
     - name: Update version in .csproj
