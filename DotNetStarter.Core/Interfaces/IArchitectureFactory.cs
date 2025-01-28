@@ -1,14 +1,6 @@
-﻿using DotNetStarter.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace DotNetStarter.Core.Interfaces;
 
-namespace DotNetStarter.Core.Interfaces
+public interface IArchitectureFactory
 {
-    public interface IArchitectureFactory
-    {
-        Dictionary<string, FolderStructure> GetStructure();
-    }
+    Dictionary<string, FolderStructure> GetStructure();
 }

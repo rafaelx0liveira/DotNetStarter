@@ -1,37 +1,26 @@
-﻿using DotNetStarter.Core.Services;
-using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace DotNetStarter.CLI.Execute.Command;
 
-namespace DotNetStarter.CLI.Execute.Command
+public class InitCommand
 {
-    public class InitCommand
+    private readonly ProjectGenerator _projectGenerator;
+
+    public InitCommand(ProjectGenerator projectGenerator)
+        =>_projectGenerator = projectGenerator;
+
+    public void Execute(string[] args)
     {
-        private readonly ProjectGenerator _projectGenerator;
+        var architecture = args.Length > 1 ? args[1] : "CleanArchitecture";
+        var projectName = AnsiConsole.Ask<string>("Project name [[default: MyProject]]:", "MyProject");
+        var outputPath = AnsiConsole.Ask<string>("Output directory [[default: current]]:", ".");
 
-        public InitCommand(ProjectGenerator projectGenerator)
+        try
         {
-            _projectGenerator = projectGenerator;
+            _projectGenerator.CreateProject(projectName, architecture, outputPath);
+            AnsiConsole.Markup("[green]Project created successfully![/]");
         }
-
-        public void Execute(string[] args)
+        catch (Exception ex)
         {
-            var architecture = args.Length > 1 ? args[1] : "CleanArchitecture";
-            var projectName = AnsiConsole.Ask<string>("Project name [[default: MyProject]]:", "MyProject");
-            var outputPath = AnsiConsole.Ask<string>("Output directory [[default: current]]:", ".");
-
-            try
-            {
-                _projectGenerator.CreateProject(projectName, architecture, outputPath);
-                AnsiConsole.Markup("[green]Project created successfully![/]");
-            }
-            catch (Exception ex)
-            {
-                AnsiConsole.MarkupLine($"[bold red]{ex.Message}[/]");
-            }
+            AnsiConsole.MarkupLine($"[bold red]{ex.Message}[/]");
         }
     }
 }
