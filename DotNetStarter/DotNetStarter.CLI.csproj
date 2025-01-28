@@ -13,10 +13,10 @@
 	  <Description>CLI para criar projetos com diferentes arquiteturas .NET</Description> <!-- Descrição -->
 	  <RepositoryUrl>https://github.com/rafaelx0liveira/DotNetStarter</RepositoryUrl>
 	  <PackageProjectUrl>https://github.com/rafaelx0liveira/DotNetStarter</PackageProjectUrl>
-	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
     <Compile Remove="CLI\**" />
     <Compile Remove="Core\**" />
     <Compile Remove="Templates\**" />
