@@ -29,7 +29,7 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: Format code
-      run: dotnet format --check
+      run: dotnet format ./DotNetStarter.sln
 
     - name: Publish to NuGet
       run: dotnet nuget push MyProject.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
