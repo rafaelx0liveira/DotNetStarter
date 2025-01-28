@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - develop
 
 jobs:
   build:
@@ -63,7 +62,9 @@ jobs:
 
     # Empacota o projeto para NuGet
     - name: Pack NuGet Package
-      run: dotnet pack DotNetStarter/DotNetStarter.CLI.csproj --configuration Release -o ./nupkg -p:PackageVersion=${{ env.NEW_VERSION# }}
+      run: |
+        VERSION=${{ env.NEW_VERSION }}
+        dotnet pack DotNetStarter/DotNetStarter.CLI.csproj --configuration Release -o ./nupkg -p:PackageVersion=${VERSION#v}
 
     # Lista os pacotes gerados (para depuração)
     - name: List generated packages
@@ -73,4 +74,6 @@ jobs:
     - name: Publish to NuGet
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push ./nupkg/DotNetStarter.CLI.${{ env.NEW_VERSION#v }}.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+      run: |
+        VERSION=${{ env.NEW_VERSION }}
+        dotnet nuget push ./nupkg/DotNetStarter.CLI.${VERSION#v}.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
