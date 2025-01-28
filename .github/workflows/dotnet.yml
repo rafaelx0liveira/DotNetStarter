@@ -24,24 +24,21 @@ jobs:
       with:
         dotnet-version: 8.0
 
-    # Obtém a última tag ou usa v0.0.0 se não houver nenhuma
+        # Obtém a última tag com o maior número de versão
     - name: Get latest tag
       id: version
       run: |
-        # Obtém todas as tags e ordena semanticamente
         TAG=$(git tag | sort -V | tail -n 1)
         if [ -z "$TAG" ]; then
           TAG="v0.0.0"
         fi
         echo "Latest tag: $TAG"
 
-        # Incrementa a versão considerando regras para '9'
         VERSION=${TAG#v}
         MAJOR=$(echo $VERSION | awk -F. '{print $1}')
         MINOR=$(echo $VERSION | awk -F. '{print $2}')
         PATCH=$(echo $VERSION | awk -F. '{print $3}')
 
-        # Verifica o incremento necessário
         if [ "$PATCH" -eq 9 ]; then
           PATCH=0
           MINOR=$((MINOR + 1))
@@ -49,16 +46,18 @@ jobs:
           PATCH=$((PATCH + 1))
         fi
 
-        # Verifica se o MINOR também precisa de rollover
         if [ "$MINOR" -eq 10 ]; then
           MINOR=0
           MAJOR=$((MAJOR + 1))
         fi
 
         NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
+        CLEAN_VERSION="$MAJOR.$MINOR.$PATCH"
 
         echo "New version: $NEW_VERSION"
+        echo "Clean version: $CLEAN_VERSION"
         echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+        echo "CLEAN_VERSION=$CLEAN_VERSION" >> $GITHUB_ENV
 
     # Restaura as dependências do projeto
     - name: Restore dependencies
