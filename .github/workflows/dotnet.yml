@@ -3,7 +3,8 @@ name: .NET Build, Check, Pack and Publish
 on:
   push:
     tags:
-      - 'v*' # Dispara o pipeline apenas em push de tags que seguem o padrão 'vX.X.X'
+      - main
+      - develop
 
 jobs:
   build:
