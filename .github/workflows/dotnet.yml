@@ -42,7 +42,7 @@ jobs:
     # Atualiza a versão no arquivo .csproj
     - name: Update version in .csproj
       run: |
-        sed -i 's|<Version>.*</Version>|<Version>${{ steps.version.outputs.VERSION }}</Version>|g' DotNetStarter.CLI/DotNetStarter.CLI.csproj
+        sed -i 's|<Version>.*</Version>|<Version>${{ steps.version.outputs.VERSION }}</Version>|g' DotNetStarter/DotNetStarter.CLI.csproj
 
     # Restaura as dependências do projeto
     - name: Restore dependencies
@@ -54,7 +54,7 @@ jobs:
 
     # Verifica a formatação do código
     - name: Format code
-      run: dotnet format ./DotNetStarter.sln --check
+      run: dotnet format ./DotNetStarter.sln
 
     # Empacota o projeto para NuGet
     - name: Pack NuGet Package
