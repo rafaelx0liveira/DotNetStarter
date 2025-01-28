@@ -4,6 +4,9 @@ on:
       - main
       - develop
 
+permissions:
+  contents: write  # Permite criar e enviar tags ao repositório
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -57,11 +60,14 @@ jobs:
         echo "New version: $NEW_VERSION"
         echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
-    # Cria uma nova tag no repositório (localmente)
-    - name: Create new tag
+    # Cria e faz push de uma nova tag no repositório
+    - name: Create and push new tag
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        echo "Creating tag: ${{ env.NEW_VERSION }}"
+        echo "Creating and pushing tag: ${{ env.NEW_VERSION }}"
         git tag ${{ env.NEW_VERSION }}
+        git push origin ${{ env.NEW_VERSION }}
 
     # Restaura as dependências do projeto
     - name: Restore dependencies
