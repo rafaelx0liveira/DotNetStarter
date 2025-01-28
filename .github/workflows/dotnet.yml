@@ -37,7 +37,7 @@ jobs:
     - name: Update version in .csproj
       run: |
         VERSION=${{ steps.extract_version.outputs.VERSION }}
-        sed -i 's|<Version>.*</Version>|<Version>'"$VERSION"'</Version>|g' DotNetStarter.CLI/DotNetStarter.CLI.csproj
+        sed -i 's|<Version>.*</Version>|<Version>'"$VERSION"'</Version>|g' DotNetStarter/DotNetStarter.CLI.csproj
 
     # Restaura as dependências do projeto
     - name: Restore dependencies
