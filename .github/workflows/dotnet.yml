@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop
 
 jobs:
   build:
@@ -13,6 +14,8 @@ jobs:
     # Checkout do código
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Garante que todas as tags sejam buscadas
 
     # Configura o .NET SDK
     - name: Setup .NET
@@ -20,28 +23,26 @@ jobs:
       with:
         dotnet-version: 8.0
 
-    # Extrai ou gera a versão (com base no Git)
-    - name: Extract or generate version
+    # Extrai a versão do .csproj
+    - name: Extract version from .csproj
       id: version
       run: |
-        # Se a tag existir, use-a como versão; caso contrário, incremente manualmente.
-        if git describe --tags --abbrev=0; then
-          VERSION=$(git describe --tags --abbrev=0 | sed 's/^v//')
-        else
-          VERSION="1.0.0" # Padrão caso nenhuma tag exista
-        fi
+        VERSION=$(grep -oP '<Version>\K[^<]+' DotNetStarter/DotNetStarter.CLI.csproj)
+        echo "Current version: $VERSION"
 
-        # Adicione +1 na versão patch (exemplo: 1.0.0 -> 1.0.1)
+        # Incrementa a versão patch (exemplo: 2.0.1 -> 2.0.2)
+        MAJOR=$(echo $VERSION | awk -F. '{print $1}')
+        MINOR=$(echo $VERSION | awk -F. '{print $2}')
         PATCH=$(echo $VERSION | awk -F. '{print $3+1}')
-        VERSION=$(echo $VERSION | awk -F. '{print $1"."$2}')".$PATCH"
+        NEW_VERSION="$MAJOR.$MINOR.$PATCH"
 
-        echo "Version: $VERSION"
-        echo "##[set-output name=VERSION;$VERSION]"
+        echo "New version: $NEW_VERSION"
+        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
 
     # Atualiza a versão no arquivo .csproj
     - name: Update version in .csproj
       run: |
-        sed -i 's|<Version>.*</Version>|<Version>${{ steps.version.outputs.VERSION }}</Version>|g' DotNetStarter.CLI/DotNetStarter.CLI.csproj
+        sed -i "s|<Version>.*</Version>|<Version>${{ steps.version.outputs.NEW_VERSION }}</Version>|g" DotNetStarter/DotNetStarter.CLI.csproj
 
     # Restaura as dependências do projeto
     - name: Restore dependencies
@@ -53,14 +54,18 @@ jobs:
 
     # Verifica a formatação do código
     - name: Format code
-      run: dotnet format ./DotNetStarter.sln --check
+      run: dotnet format ./DotNetStarter.sln
 
     # Empacota o projeto para NuGet
     - name: Pack NuGet Package
-      run: dotnet pack DotNetStarter.sln --configuration Release -o ./nupkg -p:PackageVersion=${{ steps.version.outputs.VERSION }}
+      run: dotnet pack DotNetStarter/DotNetStarter.CLI.csproj --configuration Release -o ./nupkg -p:PackageVersion=${{ steps.version.outputs.NEW_VERSION }}
+
+    # Lista os pacotes gerados (para depuração)
+    - name: List generated packages
+      run: ls -l ./nupkg
 
     # Publica no NuGet
     - name: Publish to NuGet
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push ./nupkg/DotNetStarter.CLI.${{ steps.version.outputs.VERSION }}.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./nupkg/DotNetStarter.CLI.${{ steps.version.outputs.NEW_VERSION }}.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
