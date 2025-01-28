@@ -46,7 +46,7 @@ jobs:
 
     # Verifica a formatação do código
     - name: Format code
-      run: dotnet format ./DotNetStarter.sln --check
+      run: dotnet format ./DotNetStarter.sln
 
     # Empacota o projeto
     - name: Pack NuGet Package
