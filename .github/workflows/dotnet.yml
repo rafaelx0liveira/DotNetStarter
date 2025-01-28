@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - main
-      - develop
 
 permissions:
   contents: write  # Permite criar e enviar tags ao repositório
