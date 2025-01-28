@@ -2,7 +2,7 @@ name: .NET Build, Check, Pack and Publish
 
 on:
   push:
-    tags:
+    branches:
       - main
       - develop
 
