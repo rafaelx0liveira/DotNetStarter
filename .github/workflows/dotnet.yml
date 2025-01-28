@@ -60,15 +60,6 @@ jobs:
         echo "New version: $NEW_VERSION"
         echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
-    # Cria e faz push de uma nova tag no repositório
-    - name: Create and push new tag
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        echo "Creating and pushing tag: ${{ env.NEW_VERSION }}"
-        git tag ${{ env.NEW_VERSION }}
-        git push origin ${{ env.NEW_VERSION }}
-
     # Restaura as dependências do projeto
     - name: Restore dependencies
       run: dotnet restore
@@ -94,3 +85,12 @@ jobs:
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       run: dotnet nuget push ./nupkg/DotNetStarter.CLI.${{ env.NEW_VERSION }}.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+        
+    # Cria e faz push de uma nova tag no repositório
+    - name: Create and push new tag
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "Creating and pushing tag: ${{ env.NEW_VERSION }}"
+        git tag ${{ env.NEW_VERSION }}
+        git push origin ${{ env.NEW_VERSION }}
