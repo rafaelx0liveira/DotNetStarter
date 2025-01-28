@@ -1,125 +1,125 @@
 # DotNetStarter
 
-O **DotNetStarter** é uma ferramenta CLI projetada para ajudar desenvolvedores a iniciarem rapidamente projetos .NET com arquiteturas modernas e boas práticas de desenvolvimento. Com suporte a várias arquiteturas pré-definidas, ele automatiza a criação de estruturas de pastas e arquivos essenciais, permitindo que você comece a codificar imediatamente.
+**DotNetStarter** é uma ferramenta CLI (Command Line Interface) projetada para ajudar desenvolvedores .NET a inicializar projetos de forma rápida, organizada e seguindo boas práticas arquiteturais. Com suporte a múltiplas arquiteturas, como Clean Architecture, Domain-Driven Design (DDD), Hexagonal Architecture, entre outras, o DotNetStarter torna o processo de criação de projetos mais intuitivo e automatizado.
 
-## Principais Recursos
-- Suporte a múltiplas arquiteturas:
-  - **Clean Architecture**
-  - **DDD (Domain-Driven Design)**
-  - **Microservices**
-  - **Hexagonal Architecture**
-  - **CQRS + Event Sourcing**
-  - **Onion Architecture**
-- CLI intuitivo e de fácil uso.
-- Estruturas de projetos personalizadas e organizadas por camadas.
-- Flexível para expandir e adicionar novos templates.
+## 🚀 Principais Recursos
 
----
+- Suporte a múltiplas arquiteturas: **Clean Architecture**, **DDD**, **Hexagonal**, **CQRS + Event Sourcing**, **Onion Architecture**, e **Microservices**.
+- Criação dinâmica de projetos e pastas com base no modelo escolhido.
+- Integração com o **dotnet CLI** para gerar soluções e projetos automaticamente.
+- Modularização e extensibilidade, permitindo fácil adição de novas arquiteturas.
+- Experiência visual moderna com **Spectre.Console**.
 
-## Instalação
-Para instalar o **DotNetStarter**, siga os passos abaixo:
-
-1. Certifique-se de que o .NET SDK está instalado:
-   ```bash
-   dotnet --version
-   ```
-
-2. Instale a ferramenta globalmente:
-   ```bash
-   dotnet tool install --global DotNetStarter.CLI --add-source ./nupkg
-   ```
-
----
-
-## Comandos Disponíveis
-
-### Listar Comandos
-Para ver todos os comandos suportados:
-```bash
-dotnetstarter help
-```
-
-### Inicializar um Novo Projeto
-Para criar um novo projeto com uma arquitetura específica:
-```bash
-dotnetstarter init [architecture]
-```
-
-- **Parâmetros**:
-  - `architecture` (obrigatório): A arquitetura desejada.
-
-#### Exemplo:
-```bash
-dotnetstarter init hexagonal
-```
-
-### Listar Arquiteturas Disponíveis
-Para listar as arquiteturas suportadas:
-```bash
-dotnetstarter help --arch
-```
-
-### Listar Estrutura de Pastas
-Para visualizar a estrutura de pastas de uma arquitetura:
-```bash
-dotnetstarter list --arch=[architecture]
-```
-
-#### Exemplo:
-```bash
-dotnetstarter list --arch=ddd
-```
-
----
-
-## Arquiteturas Suportadas
+## 🏗 Arquiteturas Suportadas
 
 ### **Clean Architecture**
-Estrutura baseada em camadas claras e separação de responsabilidades.
-
-### **Domain-Driven Design (DDD)**
-Modelo centrado no domínio, com suporte a Aggregates, Entities e Value Objects.
-
-### **Microservices**
-Focado em criação de serviços desacoplados com suporte a mensageria e observabilidade.
-
-### **Hexagonal Architecture (Ports and Adapters)**
-Permite desacoplar a lógica central da aplicação de interfaces externas.
+Estrutura baseada em camadas claras e separação de responsabilidades, com foco em **Application**, **Domain**, **Infrastructure**, **CrossCutting** e **Tests**.
 
 ### **CQRS + Event Sourcing**
-Separação de comandos e consultas com persistência baseada em eventos.
+Separação de comandos e consultas com persistência baseada em eventos. Inclui pastas para **CommandSide**, **QuerySide**, **API**, **Shared** e **Tests**.
+
+### **Domain-Driven Design (DDD)**
+Modelo centrado no domínio, com suporte a **Aggregates**, **Entities**, **ValueObjects**, **Events** e **Exceptions**. Inclui camadas como **Application**, **Domain**, **Infrastructure**, **Presentation** e **Tests**.
+
+### **Hexagonal Architecture (Ports and Adapters)**
+Permite desacoplar a lógica central da aplicação de interfaces externas. Inclui pastas para **Adapters**, **Application**, **Domain**, **Infrastructure** e **Tests**.
+
+### **Microservices**
+Focado em criação de serviços desacoplados com suporte a mensageria e observabilidade. Inclui camadas como **API**, **Application**, **Domain**, **Infrastructure** e **Tests**.
 
 ### **Onion Architecture**
-Focado em um modelo de camadas concéntricas, com dependências que fluem de fora para dentro.
+Focado em um modelo de camadas concêntricas, com dependências que fluem de fora para dentro. Inclui pastas para **API**, **Core**, **Infrastructure** e **Tests**.
+
+## 🛠 Funcionalidades
+
+### Comandos disponíveis:
+
+#### `init`
+Inicia um novo projeto com base na arquitetura escolhida.
+
+```bash
+# Criar um projeto usando Clean Architecture
+$ dotnetstarter init CleanArchitecture
+```
+
+#### `list`
+Lista as estruturas das arquiteturas disponíveis.
+
+```bash
+# Exibir as estruturas disponíveis
+$ dotnetstarter list 
+```
+
+#### `help`
+Exibe os comandos disponíveis ou as arquiteturas suportadas.
+
+```bash
+# Exibir ajuda geral
+$ dotnetstarter help
+```
+
+## 📂 Estrutura do Projeto Gerado
+Dependendo da arquitetura escolhida, o DotNetStarter cria uma solução e organiza os projetos em camadas. Por exemplo, na **Clean Architecture**:
+
+```plaintext
+MyProject.sln
+├── MyProject.Application
+│   ├── DTOs
+│   ├── Interfaces
+│   ├── Services
+│   └── UseCases
+├── MyProject.Domain
+│   ├── Entities
+│   ├── Interfaces
+│   ├── ValueObjects
+├── MyProject.Infrastructure
+│   ├── Context
+│   ├── Migrations
+│   └── Repositories
+├── MyProject.CrossCutting
+│   └── DependencyInjection
+├── MyProject.Tests
+    └── UnitTests
+```
+
+## ✨ Como Funciona
+O DotNetStarter utiliza **Factories** para encapsular a lógica de criação de cada arquitetura, e **Builders** para realizar operações comuns, como criação de projetos, soluções e pastas. O uso de **Injeção de Dependências (DI)** garante um código extensível e modular.
+
+## 🏗 Tecnologias Utilizadas
+
+- **.NET 6**: Plataforma base para desenvolvimento da ferramenta.
+- **Spectre.Console**: Para exibição de uma interface CLI moderna e interativa.
+- **Microsoft.Extensions.DependencyInjection**: Para gerenciamento de dependências.
+
+## 📦 Instalação
+
+1. Certifique-se de ter o **.NET SDK** instalado (versão 6 ou superior).
+
+2. Instale a ferramenta DotNetStarter via NuGet:
+
+```bash
+$ dotnet tool install -g DotNetStarter
+```
+
+3. Verifique se a instalação foi bem-sucedida:
+
+```bash
+$ dotnetstarter --help
+```
+
+## 🛠 Contribuindo
+Contribuições são muito bem-vindas! Para contribuir:
+
+1. Faça um fork do repositório.
+2. Crie uma branch para sua feature ou correção: `git checkout -b minha-feature`.
+3. Envie suas alterações: `git commit -m 'Adicionei uma nova feature'`.
+4. Envie para o repositório remoto: `git push origin minha-feature`.
+5. Abra um Pull Request.
+
+## 💬 Contato
+
+Se tiver dúvidas, sugestões ou quiser entrar em contato, fique à vontade para me enviar uma mensagem no [LinkedIn](https://www.linkedin.com/in/rafaelx0liveira).
 
 ---
 
-## Contribuição
-Contribuições são bem-vindas! Se você deseja adicionar novas arquiteturas ou melhorar a ferramenta:
-
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/rafaelx0liveira/DotNetStarter.git
-   ```
-
-2. Crie um branch para sua contribuição:
-   ```bash
-   git checkout -b feature/nova-arquitetura
-   ```
-
-3. Adicione suas alterações e envie um pull request.
-
-4. Exemplo de Política de Branch: 
-
-main          -> Código estável e pronto para produção.
-dev           -> Integração de features, correções e melhorias.
-feature/*     -> Branches para desenvolvimento de novas funcionalidades.
-bugfix/*      -> Branches para correções de bugs.
-hotfix/*      -> Branches para correções urgentes em produção.
-
----
-
-## Contato
-Se você tiver dúvidas ou sugestões, entre em contato:
-- **Autor**: Rafael Oliveira
-
+Espero que esta ferramenta facilite o desenvolvimento de projetos .NET para você! 🚀
