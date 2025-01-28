@@ -1,20 +1,12 @@
-﻿using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace DotNetStarter.CLI.Execute.Command;
 
-namespace DotNetStarter.CLI.Execute.Command
+public class HelpCommand
 {
-    public class HelpCommand
+    public void Execute()
     {
-        public void Execute()
-        {
-            AnsiConsole.MarkupLine("[yellow]Available commands:[/]");
-            AnsiConsole.MarkupLine("- [blue]init[/] [green]architecture[/]. Ex.: [yellow]dotnetstarter[/] [blue]init[/] [green]CleanArchitecture[/]");
-            AnsiConsole.MarkupLine("- [blue]help[/]");
-            AnsiConsole.MarkupLine("- [blue]list[/]");
-        }
+        AnsiConsole.MarkupLine("[yellow]Available commands:[/]");
+        AnsiConsole.MarkupLine("- [blue]init[/] [green]architecture[/]. Ex.: [yellow]dotnetstarter[/] [blue]init[/] [green]CleanArchitecture[/]");
+        AnsiConsole.MarkupLine("- [blue]help[/]");
+        AnsiConsole.MarkupLine("- [blue]list[/]");
     }
 }

@@ -1,12 +1,4 @@
-﻿using DotNetStarter.Core.Builder;
-using DotNetStarter.Core.Factories;
-using DotNetStarter.Core.Interfaces;
-using DotNetStarter.Core.Services;
-using Microsoft.Extensions.DependencyInjection;
-using DotNetStarter.CLI.Execute.Command;
-using DotNetStarter.CLI.Execute;
-
-public class Program
+﻿public class Program
 {
     public static void Main(string[] args)
     {
