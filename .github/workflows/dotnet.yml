@@ -87,7 +87,7 @@ jobs:
     - name: Publish to NuGet
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push ./nupkg/DotNetStarter.CLI.${{ env.NEW_VERSION }}.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./nupkg/DotNetStarter.CLI.${{ env.CLEAN_VERSION }}.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
         
     # Cria e faz push de uma nova tag no repositório
     - name: Create and push new tag
