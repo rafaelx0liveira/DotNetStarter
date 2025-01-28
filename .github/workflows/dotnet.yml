@@ -74,7 +74,7 @@ jobs:
 
     # Empacota o projeto para NuGet
     - name: Pack NuGet Package
-      run: dotnet pack DotNetStarter/DotNetStarter.CLI.csproj --configuration Release -o ./nupkg -p:PackageVersion=${{ env.NEW_VERSION }}
+      run: dotnet pack DotNetStarter/DotNetStarter.CLI.csproj --configuration Release -o ./nupkg -p:PackageVersion=${{ env.NEW_VERSION#v }}
 
     # Lista os pacotes gerados (para depuração)
     - name: List generated packages
