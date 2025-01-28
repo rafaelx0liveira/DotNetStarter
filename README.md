@@ -109,6 +109,14 @@ Contribuições são bem-vindas! Se você deseja adicionar novas arquiteturas ou
 
 3. Adicione suas alterações e envie um pull request.
 
+4. Exemplo de Política de Branch: 
+
+main          -> Código estável e pronto para produção.
+dev           -> Integração de features, correções e melhorias.
+feature/*     -> Branches para desenvolvimento de novas funcionalidades.
+bugfix/*      -> Branches para correções de bugs.
+hotfix/*      -> Branches para correções urgentes em produção.
+
 ---
 
 ## Contato
