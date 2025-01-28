@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - develop
 
 jobs:
   build:
@@ -14,6 +13,8 @@ jobs:
     # Checkout do código
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Garante que todas as tags sejam buscadas
 
     # Configura o .NET SDK
     - name: Setup .NET
@@ -21,13 +22,31 @@ jobs:
       with:
         dotnet-version: 8.0
 
-    # Extrai a versão da tag
-    - name: Extract version from tag
+    # Gera a próxima versão baseada nas tags existentes
+    - name: Generate next version
       id: version
       run: |
-        VERSION=${GITHUB_REF#refs/tags/v}
-        echo "Version from tag: $VERSION"
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        # Obtém a última tag do repositório
+        LATEST_TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+        echo "Latest tag: $LATEST_TAG"
+
+        # Incrementa o patch version (vX.Y.Z -> vX.Y.(Z+1))
+        VERSION=${LATEST_TAG#v}
+        MAJOR=$(echo $VERSION | awk -F. '{print $1}')
+        MINOR=$(echo $VERSION | awk -F. '{print $2}')
+        PATCH=$(echo $VERSION | awk -F. '{print $3+1}')
+        NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
+
+        echo "New version: $NEW_VERSION"
+        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+    # Cria uma nova tag no repositório
+    - name: Create and push tag
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git tag ${{ env.NEW_VERSION }}
+        git push origin ${{ env.NEW_VERSION }}
 
     # Restaura as dependências do projeto
     - name: Restore dependencies
@@ -43,7 +62,7 @@ jobs:
 
     # Empacota o projeto para NuGet
     - name: Pack NuGet Package
-      run: dotnet pack DotNetStarter/DotNetStarter.CLI.csproj --configuration Release -o ./nupkg -p:PackageVersion=${{ env.VERSION }}
+      run: dotnet pack DotNetStarter/DotNetStarter.CLI.csproj --configuration Release -o ./nupkg -p:PackageVersion=${{ env.NEW_VERSION#v }}
 
     # Lista os pacotes gerados (para depuração)
     - name: List generated packages
@@ -53,4 +72,4 @@ jobs:
     - name: Publish to NuGet
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push ./nupkg/DotNetStarter.CLI.${{ env.VERSION }}.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./nupkg/DotNetStarter.CLI.${{ env.NEW_VERSION#v }}.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
