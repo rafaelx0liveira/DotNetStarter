@@ -118,7 +118,7 @@ Contribuições são muito bem-vindas! Para contribuir:
 
 ## 💬 Contato
 
-Se tiver dúvidas, sugestões ou quiser entrar em contato, fique à vontade para me enviar uma mensagem no [LinkedIn](https://www.linkedin.com/in/rafaelx0liveira).
+Se tiver dúvidas, sugestões ou quiser entrar em contato, fique à vontade para me enviar uma mensagem no [LinkedIn](www.linkedin.com/in/rafael-aparecido-silva-oliveira).
 
 ---
 
