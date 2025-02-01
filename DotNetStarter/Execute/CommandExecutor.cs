@@ -5,9 +5,7 @@ public class CommandExecutor
     private readonly IServiceProvider _serviceProvider;
 
     public CommandExecutor(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
+        => _serviceProvider = serviceProvider;
 
     public void Execute(string[] args) {
         var command = args.Length > 0 ? args[0].ToLower() : "help";

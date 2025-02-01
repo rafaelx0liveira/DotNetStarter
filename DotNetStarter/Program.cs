@@ -33,7 +33,7 @@
         services.AddSingleton<ProjectStructureBuilder>();
 
         // Registra o ProjectGenerator
-        services.AddTransient<ProjectGenerator>();
+        services.AddTransient<ProjectGeneratorService>();
 
         // Registra os comandos
         services.AddTransient<InitCommand>();
