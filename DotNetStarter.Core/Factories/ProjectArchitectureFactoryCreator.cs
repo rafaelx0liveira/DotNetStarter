@@ -5,9 +5,9 @@ public class ProjectArchitectureFactoryCreator
     private readonly Dictionary<string, IArchitectureFactory> _factories;
 
     public ProjectArchitectureFactoryCreator(IEnumerable<IArchitectureFactory> factories)
-    {
-        _factories = factories.ToDictionary(factory => factory.GetType().Name.Replace("Factory", "").ToLower());
-    }
+        => _factories = factories
+            .ToDictionary(factory => factory.GetType().Name.Replace("Factory", string.Empty)
+            .ToLower());
 
     public IArchitectureFactory Create(string architecture)
     {

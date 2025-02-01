@@ -7,58 +7,58 @@ public class CleanArchitectureFactory : IArchitectureFactory
         return new Dictionary<string, FolderStructure>
         {
             {
-                "Application", new FolderStructure
+                FolderNamingPatternConstant.Application, new FolderStructure
                 {
-                    Name = "Application",
+                    Name = FolderNamingPatternConstant.Application,
                     SubFolders = new List<FolderStructure>
                     {
-                        new FolderStructure { Name = "DTOs" },
-                        new FolderStructure { Name = "Interfaces" },
-                        new FolderStructure { Name = "UseCases" },
+                        new FolderStructure { Name = FolderNamingPatternConstant.DTOs },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Interfaces },
+                        new FolderStructure { Name = FolderNamingPatternConstant.UseCases },
                     }
                 }
             },
             {
-                "Domain", new FolderStructure
+                FolderNamingPatternConstant.Domain, new FolderStructure
                 {
-                    Name = "Domain",
+                    Name = FolderNamingPatternConstant.Domain,
                     SubFolders = new List<FolderStructure>
                     {
-                        new FolderStructure { Name = "Entities" },
-                        new FolderStructure { Name = "Interfaces" },
-                        new FolderStructure { Name = "ValueObjects" },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Entities },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Interfaces },
+                        new FolderStructure { Name = FolderNamingPatternConstant.ValueObjects },
                     }
                 }
             },
             {
-                "Infrastructure", new FolderStructure
+                FolderNamingPatternConstant.Infrastructure, new FolderStructure
                 {
-                    Name = "Infrastructure",
+                    Name = FolderNamingPatternConstant.Infrastructure,
                     SubFolders = new List<FolderStructure>
                     {
-                        new FolderStructure { Name = "Context"},
-                        new FolderStructure { Name = "Migrations"},
-                        new FolderStructure { Name = "Repositories"},
+                        new FolderStructure { Name = FolderNamingPatternConstant.Context },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Migrations },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Repositories },
                     }
                 }
             },
             {
-                "CrossCutting", new FolderStructure
+                FolderNamingPatternConstant.CrossCutting, new FolderStructure
                 {
-                    Name = "CrossCutting",
+                    Name = FolderNamingPatternConstant.CrossCutting,
                     SubFolders = new List<FolderStructure>
                     {
-                        new FolderStructure { Name = "DependencyInjection"},
+                        new FolderStructure { Name = FolderNamingPatternConstant.DependencyInjection },
                     }
                 }
             },
             {
-                "Tests", new FolderStructure
+                FolderNamingPatternConstant.Tests, new FolderStructure
                 {
-                    Name = "Tests",
+                    Name = FolderNamingPatternConstant.Tests,
                     SubFolders = new List<FolderStructure>
                     {
-                        new FolderStructure { Name = "UseCases"},
+                        new FolderStructure { Name = FolderNamingPatternConstant.UseCases },
                     }
                 }
             }
