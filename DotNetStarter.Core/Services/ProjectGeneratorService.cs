@@ -1,13 +1,12 @@
 ﻿namespace DotNetStarter.Core.Services;
 
-public class ProjectGenerator (
+public class ProjectGeneratorService(
         ProjectArchitectureFactoryCreator projectArchitectureFactoryCreator,
-        ProjectStructureBuilder structureBuilder
-    )
+        ProjectStructureBuilder structureBuilder)
 {
-
     private readonly ProjectArchitectureFactoryCreator _factoryCreator = projectArchitectureFactoryCreator;
     private readonly ProjectStructureBuilder _builder = structureBuilder;
+    //private string _csprojPath = string.Empty;
 
     public void CreateProject(string projectName, string architecture, string outputPath)
     {
@@ -62,7 +61,7 @@ public class ProjectGenerator (
                         // Criar as pastas recursivamente dentro da camada
                         steps.Add(($"Creating folders in: {layerName}", "[yellow]In Progress[/]"));
                         SetProgressUpdater.UpdateStep(ctx, steps, currentStepIndex, "[yellow]In Progress[/]");
-                        CreateFoldersRecursively(layerPath, layer.Value);
+                        _builder.CreateFoldersAndUpdateCsproj(layerPath, layer.Value);
                         SetProgressUpdater.UpdateStep(ctx, steps, currentStepIndex, "[green]OK Completed[/]");
                         currentStepIndex++;
 
@@ -83,36 +82,5 @@ public class ProjectGenerator (
                     AnsiConsole.MarkupLine($"[bold red]Error: {ex.Message}[/]");
                 }
             });
-    }
-
-    /// <summary>
-    /// Método recursivo para criar pastas com base na estrutura hierárquica.
-    /// </summary>
-    private void CreateFoldersRecursively(string basePath, FolderStructure folderStructure, bool isRoot = true)
-    {
-        // Determinar o caminho da pasta atual
-        string currentPath = isRoot ? basePath : Path.Combine(basePath, folderStructure.Name);
-
-        // Criar a pasta atual apenas se não for a raiz
-        if (!isRoot)
-        {
-            Directory.CreateDirectory(currentPath);
-        }
-
-        //Adicionar um arquivo.gitkeep em todas as pastas, inclusive as vazias
-        string placeholderPath = Path.Combine(currentPath, ".gitkeep");
-        if (!File.Exists(placeholderPath))
-        {
-            File.WriteAllText(placeholderPath, string.Empty);
-        }
-
-        // Criar subpastas recursivamente
-        if (folderStructure.SubFolders != null && folderStructure.SubFolders.Any())
-        {
-            foreach (var subFolder in folderStructure.SubFolders)
-            {
-                CreateFoldersRecursively(currentPath, subFolder, false);
-            }
-        }
     }
 }

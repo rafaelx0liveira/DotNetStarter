@@ -7,114 +7,114 @@ public class DddArchitectureFactory : IArchitectureFactory
         return new Dictionary<string, FolderStructure>
         {
             {
-                "Application", new FolderStructure
+                FolderNamingPatternConstant.Application, new FolderStructure
                 {
-                    Name = "Application",
+                    Name = FolderNamingPatternConstant.Application,
                     SubFolders = new List<FolderStructure>
                     {
-                        new FolderStructure { Name = "Commands" },
-                        new FolderStructure { Name = "DTOs" },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Commands },
+                        new FolderStructure { Name = FolderNamingPatternConstant.DTOs },
                         new FolderStructure { 
-                            Name = "Interfaces",
+                            Name = FolderNamingPatternConstant.Interfaces,
                             SubFolders = new List<FolderStructure>
                             {
-                                new FolderStructure {Name = "Services"}
+                                new FolderStructure {Name = FolderNamingPatternConstant.Services }
                             }
                         },
-                        new FolderStructure { Name = "Queries" },
-                        new FolderStructure { Name = "Services" },
-                        new FolderStructure { Name = "Validators" },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Queries },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Services },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Validators },
                     }
                 }
             },
             {
-                "Domain", new FolderStructure
+                FolderNamingPatternConstant.Domain, new FolderStructure
                 {
-                    Name = "Domain",
+                    Name = FolderNamingPatternConstant.Domain,
                     SubFolders = new List<FolderStructure>
                     {
-                        new FolderStructure { Name = "Aggregates" },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Aggregates },
                         new FolderStructure
                         {
-                            Name = "Entities",
+                            Name = FolderNamingPatternConstant.Entities,
                             SubFolders = new List<FolderStructure>
                             {
-                                new FolderStructure { Name = "Base" },
-                                new FolderStructure { Name = "Utils" }
+                                new FolderStructure { Name = FolderNamingPatternConstant.Base },
+                                new FolderStructure { Name = FolderNamingPatternConstant.Utils }
                             }
                         },
-                        new FolderStructure { Name = "Events" },
-                        new FolderStructure { Name = "Exceptions" },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Events },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Exceptions },
                         new FolderStructure
                         {
-                            Name = "Interfaces",
+                            Name = FolderNamingPatternConstant.Interfaces,
                             SubFolders = new List<FolderStructure>
                             {
-                                new FolderStructure { Name = "Repositories" },
-                                new FolderStructure { Name = "Services" }
+                                new FolderStructure { Name = FolderNamingPatternConstant.Repositories },
+                                new FolderStructure { Name = FolderNamingPatternConstant.Services }
                             }
                         },
-                        new FolderStructure { Name = "ValueObjects" },
+                        new FolderStructure { Name = FolderNamingPatternConstant.ValueObjects },
                     }
                 }
             },
             {
-                "Infrastructure", new FolderStructure
+                FolderNamingPatternConstant.Infrastructure, new FolderStructure
                 {
-                    Name = "Infrastructure",
+                    Name = FolderNamingPatternConstant.Infrastructure,
                     SubFolders = new List<FolderStructure>
                     {
                         new FolderStructure
                         {
-                            Name = "Persistence",
+                            Name = FolderNamingPatternConstant.Persistence,
                             SubFolders = new List<FolderStructure>
                             {
-                                new FolderStructure { Name = "Configs" },
-                                new FolderStructure { Name = "Context" },
-                                new FolderStructure { Name = "Repositories" },
+                                new FolderStructure { Name = FolderNamingPatternConstant.Configs },
+                                new FolderStructure { Name = FolderNamingPatternConstant.Context },
+                                new FolderStructure { Name = FolderNamingPatternConstant.Repositories },
                             }
                         },
-                        new FolderStructure { Name = "Services" },
+                        new FolderStructure { Name = FolderNamingPatternConstant.Services },
                     }
                 }
             },
             {
-                "Presentation", new FolderStructure
+                FolderNamingPatternConstant.Presentation, new FolderStructure
                 {
-                    Name = "Presentation",
+                    Name = FolderNamingPatternConstant.Presentation,
                     SubFolders = new List<FolderStructure>
                     {
-                        new FolderStructure { Name = "Controllers"},
-                        new FolderStructure { Name = "Filters" }
+                        new FolderStructure { Name = FolderNamingPatternConstant.Controllers},
+                        new FolderStructure { Name = FolderNamingPatternConstant.Filters }
                     }
                 }
             },
             {
-                "Tests", new FolderStructure
+                FolderNamingPatternConstant.Tests, new FolderStructure
                 {
-                    Name = "Tests",
+                    Name = FolderNamingPatternConstant.Tests,
                     SubFolders = new List<FolderStructure>
                     {
                         new FolderStructure
                         {
-                            Name = "Application",
+                            Name = FolderNamingPatternConstant.Application,
                             SubFolders = new List<FolderStructure>
                             {
-                                new FolderStructure { Name = "Commands" },
-                                new FolderStructure { Name = "Queries" },
-                                new FolderStructure { Name = "Services" }
+                                new FolderStructure { Name = FolderNamingPatternConstant.Commands },
+                                new FolderStructure { Name = FolderNamingPatternConstant.Queries },
+                                new FolderStructure { Name = FolderNamingPatternConstant.Services }
                             }
                         },
                         new FolderStructure
                         {
-                            Name = "Domain",
+                            Name = FolderNamingPatternConstant.Domain,
                             SubFolders = new List<FolderStructure>
                             {
-                                new FolderStructure { Name = "Aggregates" },
-                                new FolderStructure { Name = "Entities" },
+                                new FolderStructure { Name = FolderNamingPatternConstant.Aggregates },
+                                new FolderStructure { Name = FolderNamingPatternConstant.Entities },
                             }
                         },
-                        new FolderStructure { Name = "Repositories" }
+                        new FolderStructure { Name = FolderNamingPatternConstant.Repositories }
                     }
                 }
             }

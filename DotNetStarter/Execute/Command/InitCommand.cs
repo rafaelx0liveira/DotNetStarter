@@ -2,9 +2,9 @@
 
 public class InitCommand
 {
-    private readonly ProjectGenerator _projectGenerator;
+    private readonly ProjectGeneratorService _projectGenerator;
 
-    public InitCommand(ProjectGenerator projectGenerator)
+    public InitCommand(ProjectGeneratorService projectGenerator)
         =>_projectGenerator = projectGenerator;
 
     public void Execute(string[] args)
