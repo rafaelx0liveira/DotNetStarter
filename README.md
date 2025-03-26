@@ -124,6 +124,3 @@ If you have questions, suggestions, or want to reach out, feel free to send me a
 
 I hope this tool makes .NET project development easier for you! 🚀
 
----
-
-Se quiser, posso gerar a versão do arquivo em inglês pra você baixar também.
